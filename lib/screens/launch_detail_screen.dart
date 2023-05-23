@@ -1,5 +1,6 @@
 import 'package:applifting_demo/components/custom_future_builder.dart';
 import 'package:applifting_demo/models/launch_detail_model.dart';
+import 'package:applifting_demo/models/ship_model.dart';
 import 'package:applifting_demo/services/api_service.dart';
 import 'package:flutter/material.dart';
 
@@ -19,6 +20,10 @@ class _LaunchDetailScreenState extends State<LaunchDetailScreen> {
 
   Future<LaunchDetailModel> getLaunch() async {
     return await ApiService().getLaunchDetail(widget.launchId);
+  }
+
+  Future<RocketModel> shipFuture(String id) async {
+    return await ApiService().getRocket(id);
   }
 
   @override
@@ -52,12 +57,31 @@ class _LaunchDetailScreenState extends State<LaunchDetailScreen> {
                     '${launch.date.day}.${launch.date.month}.${launch.date.year}',
                     style: const TextStyle(color: Colors.grey, fontStyle: FontStyle.italic, fontSize: 16),
                   ),
-                  const Divider(),
-                  if (launch.details != null)
+                  if (launch.details != null) ...[
+                    const Divider(),
                     Text(
                       launch.details!,
                       style: const TextStyle(fontSize: 16),
                     ),
+                  ],
+                  CustomFutureBuilder(
+                      future: shipFuture(launch.rocket),
+                      builder: (ship) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Divider(),
+                            Text(
+                              ship.name,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 22,
+                              ),
+                            ),
+                            if (ship.image != null) Image.network(ship.image!),
+                          ],
+                        );
+                      })
                 ],
               ),
             );

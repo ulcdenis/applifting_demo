@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:applifting_demo/models/launch_detail_model.dart';
 import 'package:applifting_demo/models/launch_model.dart';
+import 'package:applifting_demo/models/ship_model.dart';
 import 'package:applifting_demo/models/timeline_model.dart';
 import 'package:http/http.dart' as http;
 
@@ -18,6 +19,11 @@ class ApiService {
 
   Future getTimelineJson() async {
     Uri url = Uri.parse("https://api.spacexdata.com/v4/history/");
+    return http.get(url);
+  }
+
+  Future getRocketJson(String id) async {
+    Uri url = Uri.parse("https://api.spacexdata.com/v4/rockets/$id");
     return http.get(url);
   }
 
@@ -50,5 +56,12 @@ class ApiService {
       timeline.add(event);
     }
     return timeline;
+  }
+
+  Future<RocketModel> getRocket(String id) async {
+    dynamic response = await getRocketJson(id);
+    dynamic item = jsonDecode(response.body);
+    RocketModel rocket = RocketModel.fromJson(item);
+    return rocket;
   }
 }
