@@ -31,16 +31,19 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: pages.elementAt(currentPageIndex),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Theme.of(context).primaryColor,
+        selectedItemColor: Colors.white,
+        unselectedItemColor: const Color(0xFFA7A9AC),
         currentIndex: currentPageIndex,
         onTap: onPageChanged,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.star),
-            label: 'PAGE1',
+            icon: Icon(Icons.launch),
+            label: 'LAUNCHES',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.star),
-            label: 'PAGE2',
+            icon: Icon(Icons.history),
+            label: 'TIMELINE',
           ),
         ],
       ),

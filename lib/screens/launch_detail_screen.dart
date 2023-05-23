@@ -31,7 +31,7 @@ class _LaunchDetailScreenState extends State<LaunchDetailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Flutter demo'),
+        title: const Text('Launch Detail'),
       ),
       body: CustomFutureBuilder(
           future: launchFuture,

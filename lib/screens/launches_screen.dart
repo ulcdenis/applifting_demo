@@ -112,6 +112,14 @@ class _LaunchesScreenState extends State<LaunchesScreen> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: TextField(
+              style: const TextStyle(color: Colors.white),
+              decoration: const InputDecoration(
+                hintText: 'Search',
+                iconColor: Colors.white,
+                hintStyle: TextStyle(color: Colors.white),
+                icon: Icon(Icons.search),
+              ),
+              cursorColor: Colors.white,
               controller: searchController,
               onChanged: (data) => onSearch(),
             ),
