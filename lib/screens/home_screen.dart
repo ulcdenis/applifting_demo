@@ -1,4 +1,4 @@
-import 'package:applifting_demo/services/api_service.dart';
+import 'package:applifting_demo/screens/launches_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -9,6 +9,22 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  int currentPageIndex = 0;
+
+  List<Widget> pages = [
+    const LaunchesScreen(),
+    const Icon(
+      Icons.camera,
+      size: 150,
+    ),
+  ];
+
+  void onPageChanged(int index) {
+    setState(() {
+      currentPageIndex = index;
+    });
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -21,13 +37,20 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Text('Flutter demo'),
       ),
-      body: Center(
-        child: TextButton(
-          onPressed: () {
-            ApiService().getLaunches();
-          },
-          child: const Text('TEST'),
-        ),
+      body: pages.elementAt(currentPageIndex),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: currentPageIndex,
+        onTap: onPageChanged,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.star),
+            label: 'PAGE1',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.star),
+            label: 'PAGE2',
+          ),
+        ],
       ),
     );
   }
