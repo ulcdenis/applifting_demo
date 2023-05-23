@@ -18,6 +18,7 @@ class _LaunchesScreenState extends State<LaunchesScreen> {
 
   bool searching = false;
   List<int> yearsFilter = [];
+  bool sortDescending = false;
 
   late Future<List<LaunchModel>> launchesFuture = getLaunches();
   late Future<List<LaunchModel>> searchFuture;
@@ -47,9 +48,17 @@ class _LaunchesScreenState extends State<LaunchesScreen> {
     List<LaunchModel> search = tempLaunches
         .where((element) => element.name.toLowerCase().contains(searchController.text.toLowerCase()))
         .toList();
+
     if (yearsFilter.isNotEmpty) {
       search.removeWhere((element) => !yearsFilter.contains(element.date.year));
     }
+
+    if (sortDescending) {
+      search.sort((a, b) => b.date.compareTo(a.date));
+    } else {
+      search.sort((a, b) => a.date.compareTo(b.date));
+    }
+
     return search;
   }
 
@@ -70,6 +79,11 @@ class _LaunchesScreenState extends State<LaunchesScreen> {
       for (var element in items) {
         yearsFilter.add(int.parse(element));
       }
+    }
+
+    final bool? sort = prefs!.getBool('yearSort');
+    if (sort != null) {
+      sortDescending = sort;
     }
     onSearch();
   }
@@ -131,6 +145,17 @@ class _LaunchesScreenState extends State<LaunchesScreen> {
           CustomFutureBuilder(
               future: searching ? searchFuture : launchesFuture,
               builder: (launches) {
+                if (launches.isEmpty) {
+                  return const Padding(
+                    padding: EdgeInsets.only(top: 20),
+                    child: Center(
+                      child: Text(
+                        'List is empty.',
+                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  );
+                }
                 return Expanded(
                   child: ListView.separated(
                     itemCount: launches.length,

@@ -12,6 +12,7 @@ class _FilterScreenState extends State<FilterScreen> {
   late final SharedPreferences prefs;
   List<int> years = [];
   List<int> selectedYears = [];
+  bool sortDescending = false;
 
   void getYears() {
     int initialYear = 2006;
@@ -32,6 +33,20 @@ class _FilterScreenState extends State<FilterScreen> {
         });
       }
     }
+
+    final bool? sort = prefs.getBool('yearSort');
+    if (sort != null) {
+      setState(() {
+        sortDescending = sort;
+      });
+    }
+  }
+
+  void changeSort() async {
+    setState(() {
+      sortDescending = !sortDescending;
+    });
+    await prefs.setBool('yearSort', sortDescending);
   }
 
   void saveFilter() async {
@@ -58,6 +73,29 @@ class _FilterScreenState extends State<FilterScreen> {
       body: SafeArea(
         child: Column(
           children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 20),
+              child: Row(
+                children: [
+                  const Expanded(
+                    child: Text(
+                      'Sort by:',
+                      style: TextStyle(color: Colors.black, fontSize: 16),
+                    ),
+                  ),
+                  const Text(
+                    'years',
+                    style: TextStyle(color: Colors.black, fontSize: 16),
+                  ),
+                  IconButton(
+                      onPressed: () => changeSort(),
+                      icon: RotatedBox(
+                        quarterTurns: sortDescending ? 2 : 0,
+                        child: const Icon(Icons.arrow_downward),
+                      ))
+                ],
+              ),
+            ),
             Theme(
               data: ThemeData().copyWith(dividerColor: Colors.transparent),
               child: ExpansionTile(
