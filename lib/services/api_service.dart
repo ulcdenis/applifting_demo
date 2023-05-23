@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:applifting_demo/models/launch_detail_model.dart';
 import 'package:applifting_demo/models/launch_model.dart';
 import 'package:applifting_demo/models/timeline_model.dart';
 import 'package:http/http.dart' as http;
@@ -32,10 +33,10 @@ class ApiService {
     return launches;
   }
 
-  Future<LaunchModel> getLaunchDetail(String id) async {
+  Future<LaunchDetailModel> getLaunchDetail(String id) async {
     dynamic response = await getLaunchDetailJson(id);
     dynamic item = jsonDecode(response.body);
-    LaunchModel launch = LaunchModel.fromJson(item);
+    LaunchDetailModel launch = LaunchDetailModel.fromJson(item);
     return launch;
   }
 

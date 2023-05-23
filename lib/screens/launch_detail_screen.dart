@@ -1,5 +1,5 @@
 import 'package:applifting_demo/components/custom_future_builder.dart';
-import 'package:applifting_demo/models/launch_model.dart';
+import 'package:applifting_demo/models/launch_detail_model.dart';
 import 'package:applifting_demo/services/api_service.dart';
 import 'package:flutter/material.dart';
 
@@ -15,9 +15,9 @@ class LaunchDetailScreen extends StatefulWidget {
 }
 
 class _LaunchDetailScreenState extends State<LaunchDetailScreen> {
-  late Future<LaunchModel> launchFuture = getLaunch();
+  late Future<LaunchDetailModel> launchFuture = getLaunch();
 
-  Future<LaunchModel> getLaunch() async {
+  Future<LaunchDetailModel> getLaunch() async {
     return await ApiService().getLaunchDetail(widget.launchId);
   }
 
@@ -36,8 +36,30 @@ class _LaunchDetailScreenState extends State<LaunchDetailScreen> {
       body: CustomFutureBuilder(
           future: launchFuture,
           builder: (launch) {
-            return Center(
-              child: Text('LAUNCH DETAIL: ${launch.name}'),
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    launch.name,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30,
+                    ),
+                  ),
+                  Text(
+                    '${launch.date.day}.${launch.date.month}.${launch.date.year}',
+                    style: const TextStyle(color: Colors.grey, fontStyle: FontStyle.italic, fontSize: 16),
+                  ),
+                  const Divider(),
+                  if (launch.details != null)
+                    Text(
+                      launch.details!,
+                      style: const TextStyle(fontSize: 16),
+                    ),
+                ],
+              ),
             );
           }),
     );
