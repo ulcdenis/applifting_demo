@@ -1,3 +1,4 @@
+import 'package:applifting_demo/services/api_service.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -20,7 +21,14 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Text('Flutter demo'),
       ),
-      body: const Placeholder(),
+      body: Center(
+        child: TextButton(
+          onPressed: () {
+            ApiService().getLaunches();
+          },
+          child: const Text('TEST'),
+        ),
+      ),
     );
   }
 }
