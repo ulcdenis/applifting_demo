@@ -35,9 +35,44 @@ class _TimelineScreenState extends State<TimelineScreen> {
                   child: ListView.separated(
                     itemCount: timeline.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                        child: Text(timeline[index].title),
+                      return Theme(
+                        data: ThemeData().copyWith(dividerColor: Colors.transparent),
+                        child: ExpansionTile(
+                          iconColor: Colors.black,
+                          collapsedIconColor: Colors.black,
+                          title: Padding(
+                            padding: const EdgeInsets.all(1),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '${timeline[index].date.day}.${timeline[index].date.month}.${timeline[index].date.year}: ',
+                                  style: const TextStyle(color: Colors.grey, fontStyle: FontStyle.italic),
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    timeline[index].title,
+                                    style: const TextStyle(color: Colors.black),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              child: Row(
+                                children: [
+                                  Expanded(child: Text(timeline[index].details)),
+                                ],
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () {}, //TODO: do something
+                              child: const Text('Detail'),
+                            )
+                          ],
+                        ),
                       );
                     },
                     separatorBuilder: (BuildContext context, int index) {
