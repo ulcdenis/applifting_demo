@@ -155,10 +155,7 @@ class _FilterScreenState extends State<FilterScreen> {
               ),
             ),
             Expanded(child: Container()),
-            TextButton(
-              onPressed: () => saveFilter(),
-              child: const Text('DONE'),
-            )
+            OutlinedButton(onPressed: () => saveFilter(), child: const Text('DONE')),
           ],
         ),
       ),
