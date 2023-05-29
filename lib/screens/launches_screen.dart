@@ -2,8 +2,9 @@ import 'package:applifting_demo/components/custom_future_builder.dart';
 import 'package:applifting_demo/models/launch_model.dart';
 import 'package:applifting_demo/screens/filter_screen.dart';
 import 'package:applifting_demo/screens/launch_detail_screen.dart';
-import 'package:applifting_demo/services/api_service.dart';
+import 'package:applifting_demo/services/launches_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LaunchesScreen extends StatefulWidget {
@@ -25,7 +26,10 @@ class _LaunchesScreenState extends State<LaunchesScreen> {
   TextEditingController searchController = TextEditingController();
 
   Future<List<LaunchModel>> getLaunches() async {
-    return await ApiService().getLaunches();
+    if (!Provider.of<LaunchesProvider>(context, listen: false).loaded) {
+      return await Provider.of<LaunchesProvider>(context, listen: false).getLaunches();
+    }
+    return Provider.of<LaunchesProvider>(context, listen: false).launches;
   }
 
   void onLaunchDetail(String id) {

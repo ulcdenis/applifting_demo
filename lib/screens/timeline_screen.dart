@@ -1,7 +1,8 @@
 import 'package:applifting_demo/components/custom_future_builder.dart';
 import 'package:applifting_demo/models/timeline_model.dart';
-import 'package:applifting_demo/services/api_service.dart';
+import 'package:applifting_demo/services/timeline_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class TimelineScreen extends StatefulWidget {
   const TimelineScreen({super.key});
@@ -14,7 +15,10 @@ class _TimelineScreenState extends State<TimelineScreen> {
   late Future<List<TimelineModel>> timelineFuture = getTimeline();
 
   Future<List<TimelineModel>> getTimeline() async {
-    return await ApiService().getTimeline();
+    if (!Provider.of<TimelineProvider>(context, listen: false).loaded) {
+      return await Provider.of<TimelineProvider>(context, listen: false).getTimeline();
+    }
+    return Provider.of<TimelineProvider>(context, listen: false).timeline;
   }
 
   @override
