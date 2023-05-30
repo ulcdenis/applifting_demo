@@ -105,13 +105,16 @@ class _LaunchesScreenState extends State<LaunchesScreen> {
                 icon: const Icon(Icons.filter_alt),
               ),
               if (yearsFilter.isNotEmpty)
-                const Positioned(
+                Positioned(
                   top: 5,
                   right: 7,
-                  child: Icon(
-                    Icons.circle,
-                    color: Colors.red,
-                    size: 16,
+                  child: GestureDetector(
+                    onTap: () => onFilter(),
+                    child: const Icon(
+                      Icons.circle,
+                      color: Colors.red,
+                      size: 16,
+                    ),
                   ),
                 )
             ],
