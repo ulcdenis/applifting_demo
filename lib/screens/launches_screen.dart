@@ -2,10 +2,10 @@ import 'package:applifting_demo/components/custom_future_builder.dart';
 import 'package:applifting_demo/models/launch_model.dart';
 import 'package:applifting_demo/screens/filter_screen.dart';
 import 'package:applifting_demo/screens/launch_detail_screen.dart';
+import 'package:applifting_demo/services/filter_provider.dart';
 import 'package:applifting_demo/services/launches_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class LaunchesScreen extends StatefulWidget {
   const LaunchesScreen({super.key});
@@ -15,8 +15,6 @@ class LaunchesScreen extends StatefulWidget {
 }
 
 class _LaunchesScreenState extends State<LaunchesScreen> {
-  SharedPreferences? prefs;
-
   bool searching = false;
   List<int> yearsFilter = [];
   bool sortDescending = false;
@@ -76,19 +74,13 @@ class _LaunchesScreenState extends State<LaunchesScreen> {
   }
 
   Future<void> setFilters() async {
-    yearsFilter = [];
-    prefs ??= await SharedPreferences.getInstance();
-    final List<String>? items = prefs!.getStringList('yearFilter');
-    if (items != null) {
-      for (var element in items) {
-        yearsFilter.add(int.parse(element));
-      }
+    if (!Provider.of<FilterProvider>(context, listen: false).initialized) {
+      await Provider.of<FilterProvider>(context, listen: false).init();
     }
-
-    final bool? sort = prefs!.getBool('yearSort');
-    if (sort != null) {
-      sortDescending = sort;
-    }
+    setState(() {
+      yearsFilter = Provider.of<FilterProvider>(context, listen: false).yearFilter;
+      sortDescending = Provider.of<FilterProvider>(context, listen: false).yearSort;
+    });
     onSearch();
   }
 

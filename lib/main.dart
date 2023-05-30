@@ -1,4 +1,5 @@
 import 'package:applifting_demo/screens/home_screen.dart';
+import 'package:applifting_demo/services/filter_provider.dart';
 import 'package:applifting_demo/services/launches_provider.dart';
 import 'package:applifting_demo/services/timeline_provider.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
         providers: [
           ChangeNotifierProvider(create: (context) => LaunchesProvider()..getLaunches()),
           ChangeNotifierProvider(create: (context) => TimelineProvider()..getTimeline()),
+          ChangeNotifierProvider(create: (context) => FilterProvider()..init()),
         ],
         builder: (context, child) {
           return MaterialApp(

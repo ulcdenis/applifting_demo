@@ -1,5 +1,6 @@
+import 'package:applifting_demo/services/filter_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 
 class FilterScreen extends StatefulWidget {
   const FilterScreen({super.key});
@@ -9,7 +10,6 @@ class FilterScreen extends StatefulWidget {
 }
 
 class _FilterScreenState extends State<FilterScreen> {
-  late final SharedPreferences prefs;
   List<int> years = [];
   List<int> selectedYears = [];
   bool sortDescending = false;
@@ -24,35 +24,24 @@ class _FilterScreenState extends State<FilterScreen> {
   }
 
   void setPrefs() async {
-    prefs = await SharedPreferences.getInstance();
-    final List<String>? items = prefs.getStringList('yearFilter');
-    if (items != null) {
-      for (var element in items) {
-        setState(() {
-          selectedYears.add(int.parse(element));
-        });
-      }
+    if (!Provider.of<FilterProvider>(context, listen: false).initialized) {
+      await Provider.of<FilterProvider>(context, listen: false).init();
     }
-
-    final bool? sort = prefs.getBool('yearSort');
-    if (sort != null) {
-      setState(() {
-        sortDescending = sort;
-      });
-    }
+    setState(() {
+      selectedYears = Provider.of<FilterProvider>(context, listen: false).yearFilter;
+      sortDescending = Provider.of<FilterProvider>(context, listen: false).yearSort;
+    });
   }
 
   void changeSort() async {
     setState(() {
       sortDescending = !sortDescending;
     });
-    await prefs.setBool('yearSort', sortDescending);
+    await Provider.of<FilterProvider>(context, listen: false).setSort(sortDescending);
   }
 
   void saveFilter() async {
-    List<String> strList = selectedYears.map((i) => i.toString()).toList();
-    await prefs.remove('yearFilter');
-    await prefs.setStringList('yearFilter', strList);
+    await Provider.of<FilterProvider>(context, listen: false).setFilter(selectedYears);
     // ignore: use_build_context_synchronously
     Navigator.pop(context);
   }
