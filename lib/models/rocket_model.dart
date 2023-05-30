@@ -2,9 +2,9 @@ import 'dart:core';
 
 import 'package:json_annotation/json_annotation.dart';
 
-part 'ship_model.g.dart';
+part 'rocket_model.g.dart';
 
-@JsonSerializable(createToJson: true)
+@JsonSerializable()
 class RocketModel {
   final String id;
   final String name;
@@ -19,5 +19,5 @@ class RocketModel {
     this.homePort,
   });
 
-  factory RocketModel.fromJson(Map<String, dynamic> json) => _$ShipModelFromJson(json);
+  factory RocketModel.fromJson(Map<String, dynamic> json) => _$RocketModelFromJson(json);
 }

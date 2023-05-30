@@ -4,7 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'timeline_model.g.dart';
 
-@JsonSerializable(createToJson: true)
+@JsonSerializable()
 class TimelineModel {
   final String id;
   @JsonKey(name: 'event_date_utc')

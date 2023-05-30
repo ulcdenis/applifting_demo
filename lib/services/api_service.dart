@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:applifting_demo/models/launch_detail_model.dart';
 import 'package:applifting_demo/models/launch_model.dart';
-import 'package:applifting_demo/models/ship_model.dart';
+import 'package:applifting_demo/models/rocket_model.dart';
 import 'package:applifting_demo/models/timeline_model.dart';
 import 'package:http/http.dart' as http;
 

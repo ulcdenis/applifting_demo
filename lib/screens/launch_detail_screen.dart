@@ -1,6 +1,6 @@
 import 'package:applifting_demo/components/custom_future_builder.dart';
 import 'package:applifting_demo/models/launch_detail_model.dart';
-import 'package:applifting_demo/models/ship_model.dart';
+import 'package:applifting_demo/models/rocket_model.dart';
 import 'package:applifting_demo/services/api_service.dart';
 import 'package:flutter/material.dart';
 

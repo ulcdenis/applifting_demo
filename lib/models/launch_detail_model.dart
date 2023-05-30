@@ -4,7 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'launch_detail_model.g.dart';
 
-@JsonSerializable(createToJson: true)
+@JsonSerializable()
 class LaunchDetailModel {
   final String id;
   final String name;
